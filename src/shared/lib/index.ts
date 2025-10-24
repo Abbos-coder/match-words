@@ -1,0 +1,1 @@
+export { parseTextFile } from './parseFile'

@@ -1,0 +1,15 @@
+apple - яблоко
+cat - кот
+dog - собака
+house - дом
+car - машина
+book - книга
+water - вода
+sun - солнце
+tree - дерево
+computer - компьютер
+phone - телефон
+table - стол
+chair - стул
+window - окно
+door - дверь
