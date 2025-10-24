@@ -13,6 +13,10 @@ const isProcessing = ref(false)
 const uploadedWords = ref<{en: string, ru: string}[]>([])
 const fileInput = ref<HTMLInputElement>()
 
+function goHome() {
+  router.push('/')
+}
+
 function onDragEnter(event: DragEvent) {
   event.preventDefault()
   isDragOver.value = true
@@ -85,10 +89,17 @@ function startMatching() {
   <div class="max-w-4xl mx-auto p-6">
     <Card>
       <template #header>
-        <h1 class="text-2xl font-bold text-gray-900">Upload Word Pairs</h1>
-        <p class="text-gray-600 mt-2">
-          Upload a text file with English-Russian word pairs. Format: "english - russian" (one pair per line)
-        </p>
+        <div class="flex justify-between items-center">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">Upload Word Pairs</h1>
+            <p class="text-gray-600 mt-2">
+              Upload a text file with English-Russian word pairs. Format: "english - russian" (one pair per line)
+            </p>
+          </div>
+          <Button variant="secondary" @click="goHome">
+            ← Back to Home
+          </Button>
+        </div>
       </template>
       
       <!-- File Upload Area -->
