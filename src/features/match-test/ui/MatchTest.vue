@@ -87,7 +87,7 @@ function nextPage() {
 }
 
 function goBack() {
-  router.push('/upload')
+  router.push('/')
 }
 
 const accuracy = computed(() => {
@@ -107,7 +107,7 @@ const isGameComplete = computed(() => matched.value.length === pairs.value.lengt
             <p class="text-gray-600 mt-1">Match English words with their Russian translations</p>
           </div>
           <Button variant="secondary" @click="goBack">
-            ← Back to Upload
+            ← Back to Home
           </Button>
         </div>
       </template>
