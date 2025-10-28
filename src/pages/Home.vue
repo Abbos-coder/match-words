@@ -37,6 +37,16 @@ const levels: Level[] = [
     color: 'from-blue-400 to-blue-600',
     icon: '📚',
     file: '/dictionaries/A2_English_to_Russian_500.txt'
+  },
+  {
+    id: 'b1',
+    name: 'B1',
+    title: 'Intermediate',
+    description: 'Everyday language and workplace vocabulary',
+    wordCount: 500,
+    color: 'from-purple-400 to-purple-600',
+    icon: '🎓',
+    file: '/dictionaries/B1_English_to_Russian_500.txt'
   }
 ]
 
@@ -79,7 +89,7 @@ async function selectLevel(level: Level) {
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
         <div
           v-for="level in levels"
           :key="level.id"
