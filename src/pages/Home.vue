@@ -26,7 +26,7 @@ const levels: Level[] = [
     wordCount: 500,
     color: 'from-green-400 to-green-600',
     icon: '🌱',
-    file: '/src/app/assets/dictionaries/A1_English_to_Russian_500.txt'
+    file: '/dictionaries/A1_English_to_Russian_500.txt'
   },
   {
     id: 'a2',
@@ -36,7 +36,7 @@ const levels: Level[] = [
     wordCount: 500,
     color: 'from-blue-400 to-blue-600',
     icon: '📚',
-    file: '/src/app/assets/dictionaries/A2_English_to_Russian_500.txt'
+    file: '/dictionaries/A2_English_to_Russian_500.txt'
   }
 ]
 
