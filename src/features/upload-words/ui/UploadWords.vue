@@ -81,7 +81,14 @@ function startMatching() {
     return
   }
   
-  router.push('/match')
+  router.push({
+    path: '/words',
+    query: {
+      level: 'Custom',
+      title: 'Custom Dictionary',
+      icon: '📤'
+    }
+  })
 }
 </script>
 

@@ -2,7 +2,6 @@
 import { useRouter } from 'vue-router'
 import { useWordStore } from '../entities'
 import { parseTextFile } from '../shared/lib/parseFile'
-import { Card } from '../shared/ui'
 
 const router = useRouter()
 const store = useWordStore()
@@ -52,15 +51,18 @@ async function selectLevel(level: Level) {
     const words = await parseTextFile(file)
     store.setWords(words)
     
-    router.push('/match')
+    router.push({
+      path: '/words',
+      query: {
+        level: level.name,
+        title: level.title,
+        icon: level.icon
+      }
+    })
   } catch (error) {
     console.error('Error loading dictionary:', error)
     alert('Error loading dictionary. Please try again.')
   }
-}
-
-function uploadCustom() {
-  router.push('/upload')
 }
 </script>
 
@@ -127,27 +129,6 @@ function uploadCustom() {
         </div>
       </div>
 
-      <div class="max-w-3xl mx-auto">
-        <Card>
-          <div class="text-center py-8">
-            <div class="text-4xl mb-4">📤</div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-2">
-              Upload Custom Dictionary
-            </h3>
-            <p class="text-gray-600 mb-6">
-              Have your own word list? Upload a custom dictionary file to practice with your own words.
-            </p>
-            <button
-              @click="uploadCustom"
-              class="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transform hover:scale-105 transition-all duration-200 shadow-lg"
-            >
-              Upload Custom File
-            </button>
-          </div>
-        </Card>
-      </div>
-
-      <!-- Features Section -->
       <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="text-center">
           <div class="text-4xl mb-3">🎮</div>
