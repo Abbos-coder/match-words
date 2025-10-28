@@ -101,12 +101,12 @@ const isGameComplete = computed(() => matched.value.length === pairs.value.lengt
   <div class="max-w-6xl mx-auto p-6">
     <Card>
       <template #header>
-        <div class="flex justify-between items-center">
-          <div>
-            <h1 class="text-2xl font-bold text-gray-900">Match Words Game</h1>
-            <p class="text-gray-600 mt-1">Match English words with their Russian translations</p>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+          <div class="flex-1">
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Match Words Game</h1>
+            <p class="text-sm sm:text-base text-gray-600 mt-1">Match English words with their Russian translations</p>
           </div>
-          <Button variant="secondary" @click="goBack">
+          <Button variant="secondary" @click="goBack" size="sm" class="w-full sm:w-auto">
             ← Back to Home
           </Button>
         </div>
@@ -142,21 +142,15 @@ const isGameComplete = computed(() => matched.value.length === pairs.value.lengt
         <div>
           <h3 class="font-bold text-lg mb-4 text-gray-800">English Words</h3>
           <div class="space-y-2">
-            <button
-              v-for="item in pairs"
-              :key="item.en"
-              :disabled="matched.some(m => m.en === item.en)"
-              class="w-full p-3 rounded-lg border text-left transition-all duration-200 font-medium"
-              :class="{
+            <button v-for="item in pairs" :key="item.en" :disabled="matched.some(m => m.en === item.en)"
+              class="w-full p-3 rounded-lg border text-left transition-all duration-200 font-medium" :class="{
                 'bg-green-200 border-green-400 text-green-800': matched.some(m => m.en === item.en),
                 'bg-blue-100 border-blue-400 text-blue-800 shadow-md': selectedEn === item.en,
                 'bg-red-100 border-red-300 text-red-700': incorrect.some(i => i.en === item.en),
                 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400': 
                   !matched.some(m => m.en === item.en) && selectedEn !== item.en && !incorrect.some(i => i.en === item.en),
                 'opacity-50 cursor-not-allowed': matched.some(m => m.en === item.en)
-              }"
-              @click="selectEn(item.en)"
-            >
+              }" @click="selectEn(item.en)">
               {{ item.en }}
             </button>
           </div>
@@ -166,21 +160,15 @@ const isGameComplete = computed(() => matched.value.length === pairs.value.lengt
         <div>
           <h3 class="font-bold text-lg mb-4 text-gray-800">Russian Words</h3>
           <div class="space-y-2">
-            <button
-              v-for="item in shuffledRussian"
-              :key="item.ru"
-              :disabled="matched.some(m => m.ru === item.ru)"
-              class="w-full p-3 rounded-lg border text-left transition-all duration-200 font-medium"
-              :class="{
+            <button v-for="item in shuffledRussian" :key="item.ru" :disabled="matched.some(m => m.ru === item.ru)"
+              class="w-full p-3 rounded-lg border text-left transition-all duration-200 font-medium" :class="{
                 'bg-green-200 border-green-400 text-green-800': matched.some(m => m.ru === item.ru),
                 'bg-blue-100 border-blue-400 text-blue-800 shadow-md': selectedRu === item.ru,
                 'bg-red-100 border-red-300 text-red-700': incorrect.some(i => i.ru === item.ru),
                 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400': 
                   !matched.some(m => m.ru === item.ru) && selectedRu !== item.ru && !incorrect.some(i => i.ru === item.ru),
                 'opacity-50 cursor-not-allowed': matched.some(m => m.ru === item.ru)
-              }"
-              @click="selectRu(item.ru)"
-            >
+              }" @click="selectRu(item.ru)">
               {{ item.ru }}
             </button>
           </div>
