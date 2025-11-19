@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useWordStore } from '../../../entities'
 import { Button, Card } from '../../../shared/ui'
@@ -14,14 +14,31 @@ if (store.words.length === 0) {
 const currentPage = ref<number>(0)
 const wordsPerPage = 10
 
+// Shuffle the entire words list once, then paginate from this shuffled list
+const shuffledAll = ref<{ en: string; ru: string }[]>([])
+
+watch(() => store.words, (newWords) => {
+  // Randomize the full list so pages are random, not alphabetical
+  shuffledAll.value = [...newWords].sort(() => Math.random() - 0.5)
+}, { immediate: true, deep: true })
+
 const pairs = computed(() => {
   const start = currentPage.value * wordsPerPage
   const end = start + wordsPerPage
-  return store.words.slice(start, end)
+  return shuffledAll.value.slice(start, end)
 })
 
-const shuffledEnglish = computed(() => [...pairs.value].sort(() => Math.random() - 0.5))
-const shuffledRussian = computed(() => [...pairs.value].sort(() => Math.random() - 0.5))
+const shuffledEnglish = ref<typeof pairs.value>([])
+const shuffledRussian = ref<typeof pairs.value>([])
+
+const initializeShuffledArrays = () => {
+  shuffledEnglish.value = [...pairs.value].sort(() => Math.random() - 0.5)
+  shuffledRussian.value = [...pairs.value].sort(() => Math.random() - 0.5)
+}
+
+watch(pairs, () => {
+  initializeShuffledArrays()
+}, { immediate: true })
 
 const hasMoreWords = computed(() => {
   return (currentPage.value + 1) * wordsPerPage < store.words.length
@@ -34,7 +51,6 @@ const incorrect = ref<{ en: string; ru: string }[]>([])
 const score = ref<number>(0)
 const attempts = ref<number>(0)
 
-// Animation states
 const justMatched = ref<{ en: string; ru: string }[]>([])
 const showSuccess = ref<boolean>(false)
 const successMessage = ref<string>('')
@@ -57,16 +73,13 @@ function checkMatch() {
     const match = pairs.value.find(p => p.en === selectedEn.value && p.ru === selectedRu.value)
     
     if (match) {
-      // Add to matched array
       matched.value.push(match)
       score.value++
       incorrect.value = incorrect.value.filter(i => !(i.en === match.en && i.ru === match.ru))
       
-      // Trigger success animation
       justMatched.value = [match]
       showSuccess.value = true
       
-      // Success messages array for variety
       const messages = [
         'Perfect! 🎉',
         'Excellent! ✨',
@@ -79,7 +92,6 @@ function checkMatch() {
       ]
       successMessage.value = messages[Math.floor(Math.random() * messages.length)] || 'Great! 🎉'
       
-      // Clear animations after delay
       setTimeout(() => {
         justMatched.value = []
         showSuccess.value = false
@@ -105,11 +117,12 @@ function resetGame() {
   selectedRu.value = null
   score.value = 0
   attempts.value = 0
-  // Clear animations
   justMatched.value = []
   showSuccess.value = false
   successMessage.value = ''
-  shuffledRussian.value.sort(() => Math.random() - 0.5)
+  // Re-randomize the full list and reinitialize page arrays
+  shuffledAll.value = [...store.words].sort(() => Math.random() - 0.5)
+  initializeShuffledArrays()
 }
 
 function nextPage() {
@@ -120,6 +133,7 @@ function nextPage() {
   selectedRu.value = null
   score.value = 0
   attempts.value = 0
+  // Shuffled arrays will be re-initialized automatically by the watcher
 }
 
 function goBack() {
